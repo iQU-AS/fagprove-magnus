@@ -26,6 +26,13 @@ SECRET_KEY = 'django-insecure-u-w1jzig=vf3o)&te-e55egkgk#0x$3z7)x7(zvqizzf@k!h3(
 DEBUG = True
 
 ALLOWED_HOSTS = []
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+
+AUTHENTICATION_BACKENDS = [
+    'grocery_app.authentication.EmailBackend',  # Your custom backend
+    'django.contrib.auth.backends.ModelBackend',  # Default backend for session auth
+]
 
 
 # Application definition
@@ -38,7 +45,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders',
     'grocery_app',
+    'grocery',
+    'user',
 ]
 
 REST_FRAMEWORK = {

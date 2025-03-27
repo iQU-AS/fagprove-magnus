@@ -17,7 +17,13 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
+from grocery.urls import grocery_urls
+from user.urls import user_urls
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-]
+urlpatterns = (
+    [
+        path('admin/', admin.site.urls),
+    ]
+    + grocery_urls
+    + user_urls
+)
