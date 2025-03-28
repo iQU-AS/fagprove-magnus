@@ -18,7 +18,7 @@ Et åpent prosjekt for delte handlelister med støtte for flere brukere, JWT-aut
 ### 1. Klon repoet
 
 ```bash
-git clone https://github.com/dittbrukernavn/handleliste-app.git
+git clone https://github.com/bearmanser/fagprove-magnus.git
 cd handleliste-app
 ```
 
