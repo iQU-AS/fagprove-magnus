@@ -1,25 +1,8 @@
-from rest_framework import serializers
 
+from lists.models import GroceryList
 from user.serializers import UserMiniSerializer
-from .models import GroceryList, GroceryItem, Product
+from rest_framework import serializers
 from django.contrib.auth.models import User
-
-
-class GroceryItemSerializer(serializers.ModelSerializer):
-    # Read-only nested output
-    requested_by = UserMiniSerializer(read_only=True)
-
-    # Write-only inputs using IDs
-    requested_by_id = serializers.PrimaryKeyRelatedField(
-        source="requested_by",
-        queryset=User.objects.all(),
-        write_only=True
-    )
-
-    class Meta:
-        model = GroceryItem
-        fields = "__all__"
-
 
 class GroceryListSerializer(serializers.ModelSerializer):
     # Read-only nested output
@@ -42,11 +25,4 @@ class GroceryListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GroceryList
-        fields = "__all__"
-
-
-
-class ProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Product
         fields = "__all__"
