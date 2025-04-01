@@ -2,7 +2,7 @@ import { Card, HStack, Heading, Text, VStack } from "@chakra-ui/react";
 import { MdOutlineLocalGroceryStore } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { GroceryListType } from "../../api/Types";
-import { CreateNewListDialog } from "../grocerylist/CreateNewListDialog";
+import { CreateNewListDialog } from "./CreateNewListDialog";
 
 interface GroceryListsProps {
   lists: GroceryListType[];

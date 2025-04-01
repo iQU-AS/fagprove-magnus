@@ -37,7 +37,6 @@ export function Login() {
     if (isLogin) {
       try {
         await login(email, password);
-        (from);
         if (from === "/login") {
           navigate("/", { replace: true });
           return;
@@ -147,7 +146,7 @@ export function Login() {
           </Text>
         )}
         <Button
-          w={"10rem"}
+          w={{ base: "7rem", md: "10rem" }}
           onClick={handleSubmit}
           aria-label={
             isLogin ? "Send inn påloggingsskjema" : "Send inn påmeldingsskjema"

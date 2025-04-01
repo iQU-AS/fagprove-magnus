@@ -43,13 +43,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       localStorage.setItem("accessToken", res.access);
       setAccessToken(res.access);
     } catch {
-      logout();
+      navigate("/login", { replace: true, state: { from: location.pathname } });
     }
   };
 
   useEffect(() => {
     refreshToken();
-    const interval = setInterval(refreshToken, 60000);
+    const interval = setInterval(refreshToken, 600000);
     return () => clearInterval(interval);
   }, []);
 

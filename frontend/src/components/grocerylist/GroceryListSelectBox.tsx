@@ -64,7 +64,7 @@ export function GroceryListSelectBox({
             aria-haspopup="listbox"
             aria-labelledby="grocery-select-label"
           >
-            <Select.ValueText placeholder="Select item" />
+            <Select.ValueText placeholder="Velg vare" />
           </Select.Trigger>
           <Select.IndicatorGroup>
             <Select.Indicator />

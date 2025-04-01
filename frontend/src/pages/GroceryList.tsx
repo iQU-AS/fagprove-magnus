@@ -11,7 +11,7 @@ import {
 import { AddNewItemDialog } from "../components/grocerylist/AddNewItemDialog";
 import { GroceryListCheckboxCard } from "../components/grocerylist/GroceryListCheckboxCard";
 import { GroceryListSelectBox } from "../components/grocerylist/GroceryListSelectBox";
-import { SharingLinkDialog } from "../components/homepage/SharingLinkDialog";
+import { SharingLinkDialog } from "../components/grocerylist/SharingLinkDialog";
 import { LoadingSpinner } from "../components/utils/Spinner";
 
 export function GroceryList() {
@@ -83,8 +83,9 @@ export function GroceryList() {
   );
 
   const delete_list = () => {
-    apiService.grocery_list.delete_list(Number(list_id));
-    navigate("/");
+    apiService.grocery_list.delete_list(Number(list_id)).then(() => {
+      navigate("/");
+    });
   };
 
   const share_list = () => {
@@ -116,9 +117,10 @@ export function GroceryList() {
           aria-label="Navigasjonsknapper"
           flexDirection={{ base: "column", md: "row" }}
           gap={2}
+          w={"100%"}
         >
           <Button
-            w={"10rem"}
+            w={{ base: "100%", md: "10rem" }}
             onClick={() => navigate("/")}
             aria-label="Gå tilbake til hjemmesiden"
             bg={"primary.700"}
@@ -132,7 +134,7 @@ export function GroceryList() {
           {list?.owner.id === user?.id ? (
             <>
               <Button
-                w={"10rem"}
+                w={{ base: "100%", md: "10rem" }}
                 onClick={share_list}
                 aria-label="Del denne handlelisten"
                 bg={"primary.700"}
@@ -144,7 +146,7 @@ export function GroceryList() {
                 Del liste
               </Button>
               <Button
-                w={"10rem"}
+                w={{ base: "100%", md: "10rem" }}
                 onClick={delete_list}
                 aria-label="Slett denne handlelisten"
                 bg={"primary.700"}
@@ -158,7 +160,7 @@ export function GroceryList() {
             </>
           ) : (
             <Button
-              w={"10rem"}
+              w={{ base: "100%", md: "10rem" }}
               onClick={leave_list}
               aria-label="Forlat denne handlelisten"
               bg={"primary.700"}
@@ -210,7 +212,7 @@ export function GroceryList() {
             Total kostnad: {totalCost.toFixed(2)} NOK
           </Text>
           <Button
-            w={"10rem"}
+            w={{ base: "7rem", md: "10rem" }}
             onClick={finishShopping}
             aria-label="Fjern kjøpte varer fra listen"
             bg={"primary.700"}

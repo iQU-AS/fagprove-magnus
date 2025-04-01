@@ -37,6 +37,7 @@ export function AddNewItemDialog({
           aria-labelledby="add-item-title"
           aria-describedby="add-item-desc"
           bg="neutral.100"
+          w={{ base: "90%", md: "30rem" }}
         >
           <Dialog.CloseTrigger aria-label="Lukk dialogboksen for legg til ny vare" />
           <Dialog.Header>
@@ -67,9 +68,9 @@ export function AddNewItemDialog({
               <NumberInput.Input aria-label="Inndatafelt for varepris" />
             </NumberInput.Root>
           </Dialog.Body>
-          <Dialog.Footer>
+          <Dialog.Footer justifyContent={"center"}>
             <Button
-              w={"10rem"}
+              w={{ base: "7rem", md: "10rem" }}
               onClick={() => setDialogOpen(false)}
               bg={"secondary.700"}
               _hover={{
@@ -81,7 +82,7 @@ export function AddNewItemDialog({
               Avbryt
             </Button>
             <Button
-              w={"10rem"}
+              w={{ base: "7rem", md: "10rem" }}
               bg={"primary.700"}
               _hover={{
                 bg: "primary.800",

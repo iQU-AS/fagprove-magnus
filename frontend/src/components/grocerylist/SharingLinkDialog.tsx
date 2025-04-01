@@ -1,4 +1,12 @@
-import { Button, CloseButton, Dialog, Portal, Text } from "@chakra-ui/react";
+import {
+  Button,
+  Clipboard,
+  CloseButton,
+  Dialog,
+  Link,
+  Portal,
+  Text,
+} from "@chakra-ui/react";
 
 interface SharingLinkDialogProps {
   inviteLink: string;
@@ -25,17 +33,29 @@ export function SharingLinkDialog({
             aria-modal="true"
             aria-labelledby="share-dialog-title"
             aria-describedby="share-dialog-desc"
+            w={{ base: "90%", md: "30rem" }}
           >
             <Dialog.Header>
               <Dialog.Title id="share-dialog-title">Delingslenke</Dialog.Title>
             </Dialog.Header>
             <Dialog.Body>
-              <Text id="share-dialog-desc">{inviteLink}</Text>
+              <Text mb={4}>
+                Del lenken med dem du vil invitere til handlelisten. Lenken er
+                gyldig i 24 timer.
+              </Text>
+              <Clipboard.Root value={inviteLink}>
+                <Clipboard.Trigger asChild>
+                  <Link as="span" color="blue.fg" textStyle="sm">
+                    <Clipboard.Indicator />
+                    <Clipboard.ValueText />
+                  </Link>
+                </Clipboard.Trigger>
+              </Clipboard.Root>
             </Dialog.Body>
-            <Dialog.Footer>
+            <Dialog.Footer justifyContent={"center"}>
               <Dialog.ActionTrigger asChild>
                 <Button
-                  w={"10rem"}
+                  w={{ base: "7rem", md: "10rem" }}
                   variant="outline"
                   aria-label="Lukk delingslenkedialogen"
                   bg={"primary.700"}

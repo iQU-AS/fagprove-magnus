@@ -4,6 +4,7 @@ import { createRoot } from "react-dom/client";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { LogoutButton } from "./components/utils/LogoutButton";
 import PrivateRoute from "./components/utils/PrivateRoute";
+import { Toaster } from "./components/utils/ToastMachine";
 import { AuthProvider } from "./context/AuthContext";
 import { AcceptInvite } from "./pages/AcceptInvite";
 import { GroceryList } from "./pages/GroceryList";
@@ -40,6 +41,7 @@ createRoot(document.getElementById("root")!).render(
                   <Route path="/join-list/:token" element={<AcceptInvite />} />
                 </Route>
               </Routes>
+              <Toaster />
             </Box>
           </Box>
         </AuthProvider>

@@ -15,7 +15,7 @@ export function CreateNewListDialog({
     <Dialog.Root lazyMount open={open} onOpenChange={(e) => setOpen(e.open)}>
       <Dialog.Trigger>
         <Button
-          w={"10rem"}
+          w={{ base: "7rem", md: "10rem" }}
           aria-label="Åpne dialogboksen for å opprette ny liste"
           bg={"primary.700"}
           _hover={{
@@ -34,6 +34,7 @@ export function CreateNewListDialog({
           aria-modal="true"
           aria-labelledby="create-list-title"
           aria-describedby="create-list-desc"
+          w={{ base: "90%", md: "30rem" }}
         >
           <Dialog.CloseTrigger aria-label="Lukk dialogboksen for opprettelse av liste" />
           <Dialog.Header>
@@ -53,10 +54,10 @@ export function CreateNewListDialog({
               }}
             />
           </Dialog.Body>
-          <Dialog.Footer>
+          <Dialog.Footer justifyContent={"center"}>
             <Dialog.ActionTrigger asChild>
               <Button
-                w={"10rem"}
+                w={{ base: "7rem", md: "10rem" }}
                 variant="ghost"
                 aria-label="Avbryt"
                 bg={"secondary.700"}
@@ -69,7 +70,7 @@ export function CreateNewListDialog({
               </Button>
             </Dialog.ActionTrigger>
             <Button
-              w={"10rem"}
+              w={{ base: "7rem", md: "10rem" }}
               ml={3}
               onClick={() => {
                 handleCreateList(newListName);

@@ -18,7 +18,7 @@ export function AcceptInvite() {
     <Center h={"100%"} w={"100%"} flexDirection={"column"} gap={4}>
       <Heading>Godta invitasjon</Heading>
       <Button
-        w={"10rem"}
+        w={{ base: "7rem", md: "10rem" }}
         onClick={Accept}
         bg={"primary.700"}
         _hover={{
