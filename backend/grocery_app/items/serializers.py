@@ -10,9 +10,7 @@ class GroceryItemSerializer(serializers.ModelSerializer):
 
     # Write-only inputs using IDs
     requested_by_id = serializers.PrimaryKeyRelatedField(
-        source="requested_by",
-        queryset=User.objects.all(),
-        write_only=True
+        source="requested_by", queryset=User.objects.all(), write_only=True
     )
 
     class Meta:

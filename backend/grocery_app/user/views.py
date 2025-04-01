@@ -1,4 +1,3 @@
-
 from .serializers import UserSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -12,4 +11,3 @@ class UserDetailView(APIView):
         user = request.user
         serializer = UserSerializer(user)
         return Response(serializer.data)
-

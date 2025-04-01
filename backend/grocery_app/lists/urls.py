@@ -1,6 +1,13 @@
 from django.urls import path
 
-from lists.views import CreateInviteLinkView, FinishShopping, GroceryListAPIView, JoinListWithTokenView, LeaveGroceryListAPIView, SingleGroceryListAPIView
+from lists.views import (
+    CreateInviteLinkView,
+    FinishShopping,
+    GroceryListAPIView,
+    JoinListWithTokenView,
+    LeaveGroceryListAPIView,
+    SingleGroceryListAPIView,
+)
 
 lists_urls = [
     path(

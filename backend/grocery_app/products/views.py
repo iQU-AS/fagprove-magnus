@@ -25,10 +25,15 @@ class ProductAPIView(APIView):
 
     def delete(self, request, product_id=None):
         if product_id is None:
-            return Response({"detail": "Product ID is required."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"detail": "Product ID is required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         try:
             product = Product.objects.get(id=product_id)
             product.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Product.DoesNotExist:
-            return Response({"detail": "Product not found."}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {"detail": "Product not found."}, status=status.HTTP_404_NOT_FOUND
+            )

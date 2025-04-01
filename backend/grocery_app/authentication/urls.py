@@ -1,6 +1,11 @@
 from django.urls import path
 
-from authentication.views import CookieLoginView, CookieRefreshView, LogoutView, RegisterView
+from authentication.views import (
+    CookieLoginView,
+    CookieRefreshView,
+    LogoutView,
+    RegisterView,
+)
 
 
 authentication_urls = [
