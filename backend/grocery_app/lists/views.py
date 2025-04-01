@@ -12,13 +12,19 @@ from .serializers import (
 from .models import GroceryListInviteToken
 from django.db.models import Q
 from rest_framework.permissions import IsAuthenticated
+from django.db import transaction
+
 
 class SingleGroceryListAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, pk):
         try:
-            grocery_list = GroceryList.objects.get(pk=pk)
+            grocery_list = (
+                GroceryList.objects.filter(pk=pk)
+                .filter(Q(owner=request.user) | Q(members=request.user))
+                .get()
+            )
         except GroceryList.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         serializer = GroceryListSerializer(grocery_list)
@@ -78,6 +84,7 @@ class LeaveGroceryListAPIView(APIView):
             {"detail": "Left the list successfully."}, status=status.HTTP_200_OK
         )
 
+
 class CreateInviteLinkView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -117,15 +124,19 @@ class JoinListWithTokenView(APIView):
 class FinishShopping(APIView):
     permission_classes = [IsAuthenticated]
 
+    @transaction.atomic
     def post(self, request, list_id):
         item_ids = request.data.get("item_ids", [])
         if not isinstance(item_ids, list):
             return Response({"detail": "item_ids must be a list."}, status=400)
 
-        items_to_update = GroceryItem.objects.filter(id__in=item_ids, list_id=list_id)
+        items_to_update = GroceryItem.objects.select_for_update().filter(
+            id__in=item_ids, list_id=list_id
+        )
 
         for item in items_to_update:
             item.bought = True
+            item.bought_by = request.user
             item.save()
 
         updated_items = GroceryItem.objects.filter(list_id=list_id)

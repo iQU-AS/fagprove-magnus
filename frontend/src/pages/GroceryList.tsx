@@ -1,6 +1,6 @@
-import { Box, Button, Center, HStack, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, Center, Text, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { apiService } from "../api/ApiService";
 import {
   GroceryItemType,
@@ -8,11 +8,11 @@ import {
   ProductType,
   UserType,
 } from "../api/Types";
-import { AddNewItemDialog } from "../components/homepage/AddNewItemDialog";
-import { GroceryListCheckboxCard } from "../components/homepage/GroceryListCheckboxCard";
-import { GroceryListSelectBox } from "../components/homepage/GroceryListSelectBox";
+import { AddNewItemDialog } from "../components/grocerylist/AddNewItemDialog";
+import { GroceryListCheckboxCard } from "../components/grocerylist/GroceryListCheckboxCard";
+import { GroceryListSelectBox } from "../components/grocerylist/GroceryListSelectBox";
 import { SharingLinkDialog } from "../components/homepage/SharingLinkDialog";
-import { LoadingSpinner } from "../components/utils.tsx/Spinner";
+import { LoadingSpinner } from "../components/utils/Spinner";
 
 export function GroceryList() {
   const { list_id } = useParams<{ list_id: string }>();
@@ -23,29 +23,25 @@ export function GroceryList() {
   const [availableProducts, setAvailableProducts] = useState<ProductType[]>([]);
   const [list, setList] = useState<GroceryListType>();
   const [user, setUser] = useState<UserType>();
+  const navigate = useNavigate();
 
   useEffect(() => {
     apiService.grocery_item
       .get_items_in_list(Number(list_id))
-      .then((data) => setItems(data))
-      .catch((err) => console.error("Error fetching grocery items:", err));
+      .then((data) => setItems(data));
 
     apiService.grocery_list
       .get_single(Number(list_id))
       .then((data) => setList(data))
-      .catch((err) => console.error("Error fetching grocery list:", err));
+      .catch(() => navigate("/"));
 
-    apiService.user
-      .get_user()
-      .then((data) => setUser(data))
-      .catch((err) => console.error("Error fetching user:", err));
+    apiService.user.get_user().then((data) => setUser(data));
   }, []);
 
   useEffect(() => {
     apiService.product
       .get_products()
-      .then((data) => setAvailableProducts(data))
-      .catch((err) => console.error("Error fetching products:", err));
+      .then((data) => setAvailableProducts(data));
   }, []);
 
   const addItem = (product: ProductType) => {
@@ -56,8 +52,7 @@ export function GroceryList() {
         bought: false,
         list: Number(list_id),
       })
-      .then((newItem) => setItems((prevItems) => [...prevItems, newItem]))
-      .catch((err) => console.error("Error adding item:", err));
+      .then((newItem) => setItems((prevItems) => [...prevItems, newItem]));
   };
 
   const handleSaveNewItem = (newItemName: string, newItemPrice: number) => {
@@ -66,8 +61,7 @@ export function GroceryList() {
       .then((newProduct) => {
         setAvailableProducts((prev) => [...prev, newProduct]);
         addItem(newProduct);
-      })
-      .catch((err) => console.error("Error adding product:", err));
+      });
 
     setIsAddItemDialogOpen(false);
   };
@@ -90,7 +84,7 @@ export function GroceryList() {
 
   const delete_list = () => {
     apiService.grocery_list.delete_list(Number(list_id));
-    window.location.href = "/";
+    navigate("/");
   };
 
   const share_list = () => {
@@ -104,65 +98,79 @@ export function GroceryList() {
   };
 
   const leave_list = () => {
-    apiService.grocery_list.leave_list(Number(list_id));
+    apiService.grocery_list.leave_list(Number(list_id)).then(() => {
+      navigate("/");
+    });
   };
 
   if (!list || !user) return <LoadingSpinner />;
 
   return (
-    <Center w={"100%"} h={"100%"} aria-label="Grocery list view" p={8}>
-      <VStack w={"50%"} h={"100%"} overflow={"auto"}>
-        <HStack aria-label="Navigation buttons">
+    <Center w={"100%"} h={"100%"} aria-label="Visning av dagligvareliste" p={8}>
+      <VStack
+        w={{ base: "100%", md: "100%", lg: "50%" }}
+        h={"100%"}
+        overflow={"auto"}
+      >
+        <Center
+          aria-label="Navigasjonsknapper"
+          flexDirection={{ base: "column", md: "row" }}
+          gap={2}
+        >
           <Button
             w={"10rem"}
-            onClick={() => (window.location.href = "/")}
-            aria-label="Go back to homepage"
-            bg={"primary.500"}
+            onClick={() => navigate("/")}
+            aria-label="Gå tilbake til hjemmesiden"
+            bg={"primary.700"}
             _hover={{
-              bg: "primary.600",
+              bg: "primary.800",
             }}
+            color={"neutral.50"}
           >
-            Back
+            Tilbake
           </Button>
           {list?.owner.id === user?.id ? (
             <>
               <Button
                 w={"10rem"}
                 onClick={share_list}
-                aria-label="Share this grocery list"
-                bg={"primary.500"}
+                aria-label="Del denne handlelisten"
+                bg={"primary.700"}
                 _hover={{
-                  bg: "primary.600",
+                  bg: "primary.800",
                 }}
+                color={"neutral.50"}
               >
-                Share list
+                Del liste
               </Button>
               <Button
                 w={"10rem"}
                 onClick={delete_list}
-                aria-label="Delete this grocery list"
-                bg={"primary.500"}
+                aria-label="Slett denne handlelisten"
+                bg={"primary.700"}
                 _hover={{
-                  bg: "primary.600",
+                  bg: "primary.800",
                 }}
+                color={"neutral.50"}
               >
-                Delete list
+                Slett liste
               </Button>
             </>
           ) : (
             <Button
               w={"10rem"}
               onClick={leave_list}
-              aria-label="Leave this grocery list"
-              bg={"primary.500"}
+              aria-label="Forlat denne handlelisten"
+              bg={"primary.700"}
               _hover={{
-                bg: "primary.600",
+                bg: "primary.800",
               }}
+              color={"neutral.50"}
             >
-              Leave list
+              Forlat listen
             </Button>
           )}
-        </HStack>
+        </Center>
 
         <GroceryListSelectBox
           setDialogOpen={setIsAddItemDialogOpen}
@@ -175,7 +183,7 @@ export function GroceryList() {
           overflow={"auto"}
           h={"100%"}
           w={"100%"}
-          aria-label="List of grocery items"
+          aria-label="Liste over dagligvarevarer"
         >
           {items.map((item) => {
             const product = availableProducts.find(
@@ -194,23 +202,24 @@ export function GroceryList() {
           })}
         </VStack>
 
-        <VStack aria-label="Summary section">
+        <VStack aria-label="Oppsummeringsdelen">
           <Text
             fontWeight="bold"
-            aria-label={`Total cost is ${totalCost.toFixed(2)} NOK`}
+            aria-label={`Total kostnad er ${totalCost.toFixed(2)} NOK`}
           >
-            Total Cost: {totalCost.toFixed(2)} NOK
+            Total kostnad: {totalCost.toFixed(2)} NOK
           </Text>
           <Button
             w={"10rem"}
             onClick={finishShopping}
-            aria-label="Remove bought items from list"
-            bg={"primary.500"}
+            aria-label="Fjern kjøpte varer fra listen"
+            bg={"primary.700"}
             _hover={{
-              bg: "primary.600",
+              bg: "primary.800",
             }}
+            color={"neutral.50"}
           >
-            Finish Shopping
+            Fullfør shopping
           </Button>
         </VStack>
 

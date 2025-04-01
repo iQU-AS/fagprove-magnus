@@ -27,7 +27,7 @@ export function SharingLinkDialog({
             aria-describedby="share-dialog-desc"
           >
             <Dialog.Header>
-              <Dialog.Title id="share-dialog-title">Sharing link</Dialog.Title>
+              <Dialog.Title id="share-dialog-title">Delingslenke</Dialog.Title>
             </Dialog.Header>
             <Dialog.Body>
               <Text id="share-dialog-desc">{inviteLink}</Text>
@@ -37,10 +37,10 @@ export function SharingLinkDialog({
                 <Button
                   w={"10rem"}
                   variant="outline"
-                  aria-label="Close sharing link dialog"
-                  bg={"primary.500"}
+                  aria-label="Lukk delingslenkedialogen"
+                  bg={"primary.700"}
                   _hover={{
-                    bg: "primary.600",
+                    bg: "primary.800",
                   }}
                   color={"neutral.50"}
                 >
@@ -49,7 +49,7 @@ export function SharingLinkDialog({
               </Dialog.ActionTrigger>
             </Dialog.Footer>
             <Dialog.CloseTrigger asChild>
-              <CloseButton size="sm" aria-label="Close dialog" />
+              <CloseButton size="sm" aria-label="Lukk dialog" />
             </Dialog.CloseTrigger>
           </Dialog.Content>
         </Dialog.Positioner>

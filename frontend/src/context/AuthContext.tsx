@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { apiService } from "../api/ApiService";
 import { UserType } from "../api/Types";
 
@@ -33,6 +34,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     localStorage.getItem("accessToken")
   );
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const refreshToken = async () => {
     try {
@@ -45,7 +48,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   useEffect(() => {
-    const interval = setInterval(refreshToken, 15000);
+    refreshToken();
+    const interval = setInterval(refreshToken, 60000);
     return () => clearInterval(interval);
   }, []);
 
@@ -58,11 +62,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           setLoading(false);
         })
         .catch(() => {
-          logout();
           setLoading(false);
+          logout();
         });
-    } else {
-      setLoading(false);
     }
   }, [accessToken]);
 
@@ -81,7 +83,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     localStorage.setItem("accessToken", res.access);
     setAccessToken(res.access);
-    window.location.href = "/";
+    navigate("/");
   };
 
   const login = async (email: string, password: string) => {
@@ -89,18 +91,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const res = await apiService.auth.login(email, password);
       localStorage.setItem("accessToken", res.access);
       setAccessToken(res.access);
-      window.location.href = "/";
-    } catch (error) {
-      console.error("Login failed", error);
-      throw new Error("Invalid credentials. Please try again.");
+    } catch {
+      throw new Error("Ugyldig legitimasjon. Vennligst prøv igjen.");
     }
   };
 
   const logout = () => {
+    apiService.auth.logout();
     localStorage.removeItem("accessToken");
     setAccessToken(null);
     setUser(null);
-    window.location.href = "/login";
+    setLoading(true);
+    navigate("/login", { replace: true, state: { from: location.pathname } });
   };
 
   return (

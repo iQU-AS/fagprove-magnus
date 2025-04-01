@@ -32,9 +32,7 @@ export function GroceryListCheckboxCard({
         setItems(newItems);
       }}
       key={item.id}
-      aria-label={`Item ${product.name}, quantity ${
-        item.quantity
-      }, total price ${
+      aria-label={`Vare ${product.name}, mengde ${item.quantity}, totalpris ${
         item.quantity * parseFloat(product.price.toFixed(2))
       } NOK`}
       colorPalette={"green"}
@@ -46,8 +44,8 @@ export function GroceryListCheckboxCard({
             <HStack w="30%">
               <CheckboxCard.Label
                 aria-label={`Select ${item.quantity} ${
-                  item.quantity > 1 ? "units of" : "unit of"
-                } ${product.name}, costing ${
+                  item.quantity > 1 ? "enheter av" : "enhet av"
+                } ${product.name}, kostnadsberegning ${
                   item.quantity * parseFloat(product.price.toFixed(2))
                 } NOK`}
               >
@@ -81,27 +79,27 @@ export function GroceryListCheckboxCard({
                       });
                   }
                 }}
-                aria-label={`Change quantity of ${product.name}`}
+                aria-label={`Endre mengde ${product.name}`}
               >
                 <HStack gap="2">
                   <NumberInput.DecrementTrigger asChild>
                     <IconButton
                       variant="outline"
                       size="xs"
-                      color={"secondary.500"}
-                      borderColor={"secondary.500"}
-                      aria-label={`Decrease quantity of ${product.name}`}
+                      color={"secondary.700"}
+                      borderColor={"secondary.700"}
+                      aria-label={`Reduser mengde av ${product.name}`}
                     >
                       <LuMinus />
                     </IconButton>
                   </NumberInput.DecrementTrigger>
                   <NumberInput.IncrementTrigger asChild>
                     <IconButton
-                      color={"primary.500"}
-                      borderColor={"primary.500"}
+                      color={"primary.700"}
+                      borderColor={"primary.700"}
                       variant="outline"
                       size="xs"
-                      aria-label={`Increase quantity of ${product.name}`}
+                      aria-label={`Øk mengde av ${product.name}`}
                     >
                       <LuPlus />
                     </IconButton>
@@ -110,7 +108,7 @@ export function GroceryListCheckboxCard({
               </NumberInput.Root>
             </HStack>
             <CheckboxCard.Description>
-              {`Requested by ${item.requested_by.first_name} ${item.requested_by.last_name}`}
+              {`Forespurt av ${item.requested_by.first_name} ${item.requested_by.last_name}`}
             </CheckboxCard.Description>
           </VStack>
         </CheckboxCard.Content>

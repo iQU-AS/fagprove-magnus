@@ -2,6 +2,7 @@ import apiClient from "./ApiClient";
 import { convertGroceryItemFromApi, convertProductFromApi } from "./Helpers";
 import {
   AccessTokenType,
+  BoughtItemType,
   GroceryItemToApiType,
   GroceryItemType,
   GroceryListType,
@@ -43,6 +44,9 @@ export const apiService = {
       apiClient
         .post("/auth/refresh/", {}, { withCredentials: true })
         .then((res) => res.data),
+
+    logout: (): Promise<void> =>
+      apiClient.post("/auth/logout/", {}, { withCredentials: true }),
   },
 
   user: {
@@ -102,6 +106,11 @@ export const apiService = {
 
     delete_item_in_list: (list_id: number, id: number): Promise<void> =>
       apiClient.delete(`/grocery-items/${list_id}/${id}/`),
+
+    get_bought_items: (range: string): Promise<BoughtItemType[]> =>
+      apiClient
+        .get(`/bought-items/?range=${range}`)
+        .then((response) => response.data.map(convertGroceryItemFromApi)),
   },
 
   product: {

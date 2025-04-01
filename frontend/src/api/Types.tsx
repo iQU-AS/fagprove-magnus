@@ -31,6 +31,13 @@ export type GroceryItemType = {
   };
 };
 
+export type BoughtItemType = {
+  product: string;
+  price: string;
+  quantity: string;
+  bought_at: string;
+};
+
 export type ProductToApiType = {
   name: string;
   price: string;

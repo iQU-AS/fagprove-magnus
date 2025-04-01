@@ -1,6 +1,6 @@
 from django.urls import path
 
-from items.views import GroceryItemAPIView
+from items.views import BoughtItemsAPIView, GroceryItemAPIView
 
 items_urls = [
     path(
@@ -9,4 +9,5 @@ items_urls = [
         name="grocery-items",
     ),
     path("api/grocery-items/<int:list_id>/<int:pk>/", GroceryItemAPIView.as_view()),
+    path("api/bought-items/", BoughtItemsAPIView.as_view(), name="bought-items"),
 ]

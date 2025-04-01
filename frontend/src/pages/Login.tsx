@@ -9,9 +9,10 @@ import {
 } from "@chakra-ui/react";
 import { AxiosError } from "axios";
 import { useContext, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 
-const AuthForm = () => {
+export function Login() {
   const { login, register } = useContext(AuthContext);
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
@@ -23,6 +24,9 @@ const AuthForm = () => {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from || "/";
 
   const handleSubmit = async () => {
     setError("");
@@ -33,15 +37,21 @@ const AuthForm = () => {
     if (isLogin) {
       try {
         await login(email, password);
+        (from);
+        if (from === "/login") {
+          navigate("/", { replace: true });
+          return;
+        }
+        navigate(from, { replace: true });
       } catch {
-        setError("Login failed. Please check your email and password.");
+        setError("Innlogging mislyktes. Vennligst sjekk e-post og passord.");
         setEmailError(true);
         setPasswordError(true);
       }
     } else {
       if (password !== confirmPassword) {
         setConfirmPasswordError(true);
-        setError("Passwords do not match.");
+        setError("Passord stemmer ikke.");
         return;
       }
 
@@ -60,7 +70,7 @@ const AuthForm = () => {
           setError(data.email[0]);
           setEmailError(true);
         } else {
-          setError("Signup failed. Please try again.");
+          setError("Registreringen mislyktes. Vennligst prøv igjen.");
         }
       }
     }
@@ -73,28 +83,28 @@ const AuthForm = () => {
   };
 
   return (
-    <Center w="100%" h="100%">
+    <Center w="100%" h="100%" bg={"neutral.100"}>
       <VStack
-        aria-label={isLogin ? "Login form" : "Sign-up form"}
+        aria-label={isLogin ? "Påloggingsskjema" : "Påmeldingsskjema"}
         as="form"
         pb={"8rem"}
       >
-        <Heading>{isLogin ? "Login" : "Create Account"}</Heading>
+        <Heading>{isLogin ? "Logg inn" : "Opprett konto"}</Heading>
         {!isLogin && (
           <>
             <Input
-              aria-label="First Name"
+              aria-label="Fornavn"
               type="text"
-              placeholder="First Name"
+              placeholder="Fornavn"
               value={firstName}
               onKeyUp={handleKeyPress}
               onChange={(e) => setFirstName(e.target.value)}
               borderColor="gray.200"
             />
             <Input
-              aria-label="Last Name"
+              aria-label="Etternavn"
               type="text"
-              placeholder="Last Name"
+              placeholder="Etternavn"
               value={lastName}
               onKeyUp={handleKeyPress}
               onChange={(e) => setLastName(e.target.value)}
@@ -103,18 +113,18 @@ const AuthForm = () => {
           </>
         )}
         <Input
-          aria-label="Email"
+          aria-label="E-post"
           type="text"
-          placeholder="Email"
+          placeholder="E-post"
           value={email}
           onKeyUp={handleKeyPress}
           onChange={(e) => setEmail(e.target.value)}
           borderColor={emailError ? "red.500" : "gray.200"}
         />
         <Input
-          aria-label="Password"
+          aria-label="Passord"
           type="password"
-          placeholder="Password"
+          placeholder="Passord"
           value={password}
           onKeyUp={handleKeyPress}
           onChange={(e) => setPassword(e.target.value)}
@@ -122,9 +132,9 @@ const AuthForm = () => {
         />
         {!isLogin && (
           <Input
-            aria-label="Confirm Password"
+            aria-label="Bekreft passord"
             type="password"
-            placeholder="Confirm Password"
+            placeholder="Bekreft passord"
             value={confirmPassword}
             onKeyUp={handleKeyPress}
             onChange={(e) => setConfirmPassword(e.target.value)}
@@ -139,18 +149,20 @@ const AuthForm = () => {
         <Button
           w={"10rem"}
           onClick={handleSubmit}
-          aria-label={isLogin ? "Submit login form" : "Submit sign-up form"}
-          bg={"primary.500"}
+          aria-label={
+            isLogin ? "Send inn påloggingsskjema" : "Send inn påmeldingsskjema"
+          }
+          bg={"primary.700"}
           _hover={{
-            bg: "primary.600",
+            bg: "primary.800",
           }}
           color={"neutral.50"}
         >
-          {isLogin ? "Login" : "Create Account"}
+          {isLogin ? "Logg inn" : "Opprett konto"}
         </Button>
         <HStack>
           <Text>
-            {isLogin ? "Don't have an account?" : "Already have an account?"}
+            {isLogin ? "Har du ikke en konto?" : "Har du allerede en konto?"}
           </Text>
           <Text
             onClick={() => {
@@ -164,7 +176,9 @@ const AuthForm = () => {
             textDecoration="underline"
             role="button"
             aria-label={
-              isLogin ? "Switch to sign-up form" : "Switch to login form"
+              isLogin
+                ? "Bytt til påmeldingsskjema"
+                : "Bytt til påloggingsskjema"
             }
             tabIndex={0}
             onKeyPress={(e) => {
@@ -177,12 +191,10 @@ const AuthForm = () => {
               }
             }}
           >
-            {isLogin ? " Sign up" : " Login"}
+            {isLogin ? " Registrer deg" : " Logg inn"}
           </Text>
         </HStack>
       </VStack>
     </Center>
   );
-};
-
-export default AuthForm;
+}

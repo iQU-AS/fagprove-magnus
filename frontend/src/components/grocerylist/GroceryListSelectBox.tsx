@@ -53,13 +53,17 @@ export function GroceryListSelectBox({
         }
       }}
       collection={availableCollection}
-      aria-label="Select a grocery item"
+      aria-label="Velg en dagligvarevare"
     >
       <Select.HiddenSelect />
-      <Select.Label id="grocery-select-label">Select item</Select.Label>
+      <Select.Label id="grocery-select-label">Velg vare</Select.Label>
       <HStack w="100%">
-        <Select.Control w="100%" aria-labelledby="grocery-select-label">
-          <Select.Trigger borderColor="neutral.200" aria-haspopup="listbox">
+        <Select.Control w="100%">
+          <Select.Trigger
+            borderColor="neutral.200"
+            aria-haspopup="listbox"
+            aria-labelledby="grocery-select-label"
+          >
             <Select.ValueText placeholder="Select item" />
           </Select.Trigger>
           <Select.IndicatorGroup>
@@ -75,12 +79,12 @@ export function GroceryListSelectBox({
                   key={product.value}
                   aria-label={`Select ${
                     product.label
-                  } priced at ${product.price.toFixed(2)} NOK`}
+                  } priset til ${product.price.toFixed(2)} NOK`}
                 >
                   <HStack justifyContent="space-between" w="100%">
                     {product.label} - {product.price.toFixed(2)} NOK
                     <IconButton
-                      aria-label={`Delete ${product.label}`}
+                      aria-label={`Slett ${product.label}`}
                       size="xs"
                       variant="ghost"
                       onClick={(e) => {
@@ -95,7 +99,7 @@ export function GroceryListSelectBox({
                             );
                           });
                       }}
-                      color="secondary.600"
+                      color="secondary.700"
                     >
                       <LuTrash2 />
                     </IconButton>
@@ -106,9 +110,9 @@ export function GroceryListSelectBox({
               <Select.Item
                 item="add-new"
                 key="add-new"
-                aria-label="Add a new item"
+                aria-label="Legg til et nytt vare"
               >
-                -- Add new item --
+                -- Legg til nytt vare --
                 <Select.ItemIndicator />
               </Select.Item>
             </Select.Content>

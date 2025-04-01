@@ -16,14 +16,15 @@ export function CreateNewListDialog({
       <Dialog.Trigger>
         <Button
           w={"10rem"}
-          aria-label="Open create new list dialog"
-          bg={"primary.500"}
+          aria-label="Åpne dialogboksen for å opprette ny liste"
+          bg={"primary.700"}
           _hover={{
-            bg: "primary.600",
+            bg: "primary.800",
           }}
+          color={"neutral.50"}
           shadow={"md"}
         >
-          Create List
+          Opprett liste
         </Button>
       </Dialog.Trigger>
       <Dialog.Backdrop />
@@ -34,14 +35,14 @@ export function CreateNewListDialog({
           aria-labelledby="create-list-title"
           aria-describedby="create-list-desc"
         >
-          <Dialog.CloseTrigger aria-label="Close create list dialog" />
+          <Dialog.CloseTrigger aria-label="Lukk dialogboksen for opprettelse av liste" />
           <Dialog.Header>
-            <Dialog.Title id="create-list-title">Create New List</Dialog.Title>
+            <Dialog.Title id="create-list-title">Opprett ny liste</Dialog.Title>
           </Dialog.Header>
           <Dialog.Body id="create-list-desc">
             <Input
-              aria-label="New list name"
-              placeholder="List Name"
+              aria-label="Nytt "
+              placeholder="Listenavn"
               value={newListName}
               onChange={(e) => setNewListName(e.target.value)}
               onKeyUp={(e) => {
@@ -57,14 +58,14 @@ export function CreateNewListDialog({
               <Button
                 w={"10rem"}
                 variant="ghost"
-                aria-label="Cancel"
-                bg={"secondary.400"}
+                aria-label="Avbryt"
+                bg={"secondary.700"}
                 _hover={{
-                  bg: "secondary.500",
+                  bg: "secondary.800",
                 }}
                 color={"neutral.50"}
               >
-                Cancel
+                Avbryt
               </Button>
             </Dialog.ActionTrigger>
             <Button
@@ -74,14 +75,14 @@ export function CreateNewListDialog({
                 handleCreateList(newListName);
                 setOpen(false);
               }}
-              aria-label="Save new list"
-              bg={"primary.500"}
+              aria-label="Lagre ny liste"
+              bg={"primary.700"}
               _hover={{
-                bg: "primary.600",
+                bg: "primary.800",
               }}
               color={"neutral.50"}
             >
-              Save
+              Lagre
             </Button>
           </Dialog.Footer>
         </Dialog.Content>

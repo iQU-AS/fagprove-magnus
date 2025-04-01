@@ -38,14 +38,14 @@ export function AddNewItemDialog({
           aria-describedby="add-item-desc"
           bg="neutral.100"
         >
-          <Dialog.CloseTrigger aria-label="Close add new item dialog" />
+          <Dialog.CloseTrigger aria-label="Lukk dialogboksen for legg til ny vare" />
           <Dialog.Header>
-            <Dialog.Title id="add-item-title">Add New Item</Dialog.Title>
+            <Dialog.Title id="add-item-title">Legg til nytt vare</Dialog.Title>
           </Dialog.Header>
           <Dialog.Body id="add-item-desc">
             <Input
-              aria-label="New item name"
-              placeholder="Enter new item name"
+              aria-label="Nytt varenavn"
+              placeholder="Skriv inn nytt varenavn"
               value={newItemName}
               onChange={(e) => setNewItemName(e.target.value)}
               mb={4}
@@ -55,7 +55,7 @@ export function AddNewItemDialog({
               onValueChange={(e) => {
                 setNewItemPrice(e.valueAsNumber);
               }}
-              aria-label="New item price"
+              aria-label="Ny varepris"
               formatOptions={{
                 style: "currency",
                 currency: "NOK",
@@ -64,30 +64,38 @@ export function AddNewItemDialog({
               }}
             >
               <NumberInput.Control />
-              <NumberInput.Input aria-label="Item price input field" />
+              <NumberInput.Input aria-label="Inndatafelt for varepris" />
             </NumberInput.Root>
           </Dialog.Body>
           <Dialog.Footer>
             <Button
               w={"10rem"}
               onClick={() => setDialogOpen(false)}
-              bg={"secondary.400"}
-              aria-label="Cancel adding new item"
+              bg={"secondary.700"}
+              _hover={{
+                bg: "secondary.800",
+              }}
+              color={"neutral.50"}
+              aria-label="Avbryt å legge til nytt element"
             >
-              Cancel
+              Avbryt
             </Button>
             <Button
               w={"10rem"}
-              bg={"primary.600"}
+              bg={"primary.700"}
+              _hover={{
+                bg: "primary.800",
+              }}
+              color={"neutral.50"}
               onClick={() => {
                 handleSaveNewItem(newItemName, newItemPrice);
                 setNewItemName("");
                 setNewItemPrice(0);
               }}
               ml={3}
-              aria-label="Save new item"
+              aria-label="Lagre ny vare"
             >
-              Save
+              Lagre
             </Button>
           </Dialog.Footer>
         </Dialog.Content>

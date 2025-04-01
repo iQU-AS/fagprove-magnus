@@ -12,7 +12,7 @@ export const system = createSystem(defaultConfig, {
           400: { value: "#4fe0aa" },
           500: { value: "#27a857" },
           600: { value: "#16a34a" },
-          700: { value: "#0b825b" },
+          700: { value: "#04862b" },
           800: { value: "#086647" },
           900: { value: "#054033" },
         },
@@ -29,7 +29,7 @@ export const system = createSystem(defaultConfig, {
           900: { value: "#7c2d12" },
         },
         neutral: {
-          50: { value: "#FAFAFA" },
+          50: { value: "#FFFFFF" },
           100: { value: "#F4F4F4" },
           200: { value: "#EEEEEE" },
           300: { value: "#E8E8E8" },
