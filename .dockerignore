@@ -1,0 +1,21 @@
+# Ignore frontend build leftovers
+frontend/node_modules
+frontend/dist
+
+# Ignore Python cache
+**/__pycache__/
+
+# Ignore virtual environments
+venv/
+.env
+
+# Ignore Git
+.git
+.gitignore
+
+# Ignore Docker itself
+Dockerfile
+docker-compose.yaml
+
+# Ignore the database
+backend/grocery_app/db.sqlite3
