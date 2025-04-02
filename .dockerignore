@@ -18,4 +18,4 @@ Dockerfile
 docker-compose.yaml
 
 # Ignore the database
-backend/grocery_app/db.sqlite3
+backend/grocery_app/db/db.sqlite3
