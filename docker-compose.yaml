@@ -1,6 +1,8 @@
 services:
   handleliste_app:
     image: "handleliste_app:latest"
+    env_file:
+      - .env
     ports:
       - "8000:8000"
     volumes:

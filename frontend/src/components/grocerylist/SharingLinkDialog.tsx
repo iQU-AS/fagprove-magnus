@@ -1,10 +1,12 @@
 import {
   Button,
+  Center,
   Clipboard,
   CloseButton,
   Dialog,
   Link,
   Portal,
+  QrCode,
   Text,
 } from "@chakra-ui/react";
 
@@ -40,9 +42,21 @@ export function SharingLinkDialog({
             </Dialog.Header>
             <Dialog.Body>
               <Text mb={4}>
-                Del lenken med dem du vil invitere til handlelisten. Lenken er
-                gyldig i 24 timer.
+                Del lenken eller vis QR koden til de du vil invitere til
+                handlelisten. Lenken er gyldig i 24 timer.
               </Text>
+              <Center mb={4}>
+                <QrCode.Root
+                  value={inviteLink}
+                  color={"primary.600"}
+                  size={"xl"}
+                >
+                  <QrCode.Frame>
+                    <QrCode.Pattern />
+                  </QrCode.Frame>
+                </QrCode.Root>
+              </Center>
+
               <Clipboard.Root value={inviteLink}>
                 <Clipboard.Trigger asChild>
                   <Link as="span" color="blue.fg" textStyle="sm">

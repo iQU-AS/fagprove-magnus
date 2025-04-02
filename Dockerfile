@@ -27,5 +27,5 @@ COPY --from=frontend-builder /app/frontend/dist/index.html /app/backend/grocery_
 WORKDIR /app/backend/grocery_app
 RUN mkdir -p /app/backend/grocery_app/db
 
-CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+CMD ["sh", "-c", "python manage.py migrate && python manage.py createsuperuser --noinput || true && python manage.py runserver 0.0.0.0:8000"]
 
