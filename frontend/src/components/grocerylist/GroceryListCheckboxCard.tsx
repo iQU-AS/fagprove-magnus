@@ -41,7 +41,7 @@ export function GroceryListCheckboxCard({
       <CheckboxCard.Control>
         <CheckboxCard.Content>
           <VStack w="100%" align="start">
-            <HStack w="30%">
+            <HStack w={{ base: "100%", md: "30%" }}>
               <CheckboxCard.Label
                 aria-label={`Select ${item.quantity} ${
                   item.quantity > 1 ? "enheter av" : "enhet av"
