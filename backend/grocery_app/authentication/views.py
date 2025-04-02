@@ -94,7 +94,7 @@ class LogoutView(APIView):
     
     Returnerer en bekreftelse på utlogging.
     """
-    def post(self):
+    def post(self, _):
         response = Response({'detail': 'Logged out successfully.'}, status=status.HTTP_200_OK)
         response.delete_cookie('refresh_token', path='/')
         return response

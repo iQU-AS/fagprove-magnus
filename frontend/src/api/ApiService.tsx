@@ -50,27 +50,12 @@ export const apiService = {
         .then((res) => res.data),
 
     logout: (): Promise<void> =>
-      apiClient
-        .post("/auth/logout/", {}, { withCredentials: true })
-        .then(() => {})
-        .catch((err) => {
-          showToast("Utlogging mislyktes", "Noe gikk galt ved utlogging.");
-          throw err;
-        }),
+      apiClient.post("/auth/logout/", {}, { withCredentials: true }),
   },
 
   user: {
     get_user: (): Promise<UserType> =>
-      apiClient
-        .get("/user/")
-        .then((res) => res.data)
-        .catch((err) => {
-          showToast(
-            "Kunne ikke hente bruker",
-            "Noe gikk galt ved henting av brukerdata."
-          );
-          throw err;
-        }),
+      apiClient.get("/user/").then((res) => res.data),
   },
 
   grocery_list: {
