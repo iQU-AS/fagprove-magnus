@@ -16,9 +16,15 @@ from django.db import transaction
 
 
 class SingleGroceryListAPIView(APIView):
+    """
+    Henter én spesifikk handleliste hvis brukeren er eier eller medlem.
+    """
     permission_classes = [IsAuthenticated]
 
     def get(self, request, pk):
+        """
+        Returnerer en enkel handleliste basert på ID, dersom brukeren har tilgang.
+        """
         try:
             grocery_list = (
                 GroceryList.objects.filter(pk=pk)
@@ -32,9 +38,15 @@ class SingleGroceryListAPIView(APIView):
 
 
 class GroceryListAPIView(APIView):
+    """
+    Henter alle handlelister brukeren har tilgang til, eller oppretter en ny.
+    """
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        """
+        Returnerer alle lister der brukeren er eier eller medlem.
+        """
         lists = GroceryList.objects.filter(
             Q(owner=request.user) | Q(members=request.user)
         ).distinct()
@@ -42,6 +54,9 @@ class GroceryListAPIView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
+        """
+        Oppretter en ny handleliste med innlogget bruker som eier.
+        """
         data = request.data.copy()
         data['owner_id'] = request.user.id
         serializer = GroceryListSerializer(data=data)
@@ -54,6 +69,9 @@ class GroceryListAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, _, pk):
+        """
+        Sletter en handleliste basert på ID.
+        """
         try:
             grocery_list = GroceryList.objects.get(pk=pk)
         except GroceryList.DoesNotExist:
@@ -63,9 +81,17 @@ class GroceryListAPIView(APIView):
 
 
 class LeaveGroceryListAPIView(APIView):
+    """
+    Lar en bruker forlate en handleliste de er medlem av.
+    
+    Eier kan ikke forlate listen uten å overføre eierskapet først.
+    """
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk):
+        """
+        Fjerner brukeren fra listen hvis de er medlem, men ikke eier.
+        """
         try:
             grocery_list = GroceryList.objects.get(pk=pk)
         except GroceryList.DoesNotExist:
@@ -82,9 +108,17 @@ class LeaveGroceryListAPIView(APIView):
 
 
 class CreateInviteLinkView(APIView):
+    """
+    Genererer en invitasjonslenke for en handleliste.
+    
+    Kun eier av listen kan opprette lenken.
+    """
     permission_classes = [IsAuthenticated]
 
     def post(self, request, list_id):
+        """
+        Returnerer en unik invitasjons-token for listen.
+        """
         grocery_list = get_object_or_404(GroceryList, id=list_id)
 
         if request.user != grocery_list.owner:
@@ -95,9 +129,15 @@ class CreateInviteLinkView(APIView):
 
 
 class JoinListWithTokenView(APIView):
+    """
+    Legger brukeren til i en handleliste ved bruk av gyldig invitasjons-token.
+    """
     permission_classes = [IsAuthenticated]
 
     def post(self, request, token):
+        """
+        Legger innlogget bruker til i handlelisten hvis invitasjonen er gyldig.
+        """
         invite = get_object_or_404(GroceryListInviteToken, token=token)
 
         if not invite.is_valid():
@@ -116,10 +156,17 @@ class JoinListWithTokenView(APIView):
 
 
 class FinishShopping(APIView):
+    """
+    Marker varer som kjøpt i en gitt handleliste basert på liste over ID-er.
+    """
     permission_classes = [IsAuthenticated]
 
     @transaction.atomic
     def post(self, request, list_id):
+        """
+        Oppdaterer alle varer med gitt ID til å være markert som kjøpt.
+        Bruker transaksjon for å sikre konsistens.
+        """
         item_ids = request.data.get('item_ids', [])
         if not isinstance(item_ids, list):
             return Response({'detail': 'item_ids must be a list.'}, status=400)

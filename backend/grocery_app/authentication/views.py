@@ -8,6 +8,11 @@ from user.serializers import UserSerializer
 
 
 class CookieLoginView(TokenObtainPairView):
+    """
+    Logger inn brukeren og returnerer et access token.
+    
+    Refresh token settes som en HttpOnly-cookie for å hindre XSS-angrep.
+    """
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
 
@@ -28,6 +33,11 @@ class CookieLoginView(TokenObtainPairView):
 
 
 class CookieRefreshView(APIView):
+    """
+    Returnerer et nytt access token basert på refresh token lagret i cookie.
+    
+    Returnerer 401 hvis refresh token mangler eller er ugyldig.
+    """
     def post(self, request):
         refresh_token = request.COOKIES.get('refresh_token')
         if not refresh_token:
@@ -48,6 +58,11 @@ class CookieRefreshView(APIView):
 
 
 class RegisterView(generics.CreateAPIView):
+    """
+    Registrerer en ny bruker og returnerer access token.
+
+    Refresh token settes som cookie. Validerer input med serializer.
+    """
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -68,12 +83,17 @@ class RegisterView(generics.CreateAPIView):
             secure=False,
             samesite='Lax',
             path='/',
-            max_age=60 * 60 * 24 * 7,  # 7 days
+            max_age=60 * 60 * 24 * 7,  # 7 dager
         )
         return response
 
 
 class LogoutView(APIView):
+    """
+    Logger ut brukeren ved å slette refresh token-cookien.
+    
+    Returnerer en bekreftelse på utlogging.
+    """
     def post(self):
         response = Response({'detail': 'Logged out successfully.'}, status=status.HTTP_200_OK)
         response.delete_cookie('refresh_token', path='/')

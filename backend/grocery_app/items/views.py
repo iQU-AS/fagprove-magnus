@@ -12,14 +12,26 @@ from django.http import JsonResponse
 
 
 class GroceryItemAPIView(APIView):
+    """
+    API-endepunkt for å hente, legge til, oppdatere og slette dagligvarer i en spesifikk handleliste.
+    
+    Krever at brukeren er autentisert. Brukeren må være eier eller medlem av listen for å legge til varer.
+    """
     permission_classes = [IsAuthenticated]
 
     def get(self, _, list_id):
+        """
+        Returnerer alle varer i en gitt handleliste som ikke er markert som kjøpt.
+        """
         items = GroceryItem.objects.filter(list_id=list_id, bought=False)
         serializer = GroceryItemSerializer(items, many=True)
         return Response(serializer.data)
 
     def post(self, request, list_id):
+        """
+        Legger til en ny vare i en gitt handleliste.
+        Krever at brukeren er eier eller medlem av listen.
+        """
         grocery_list = GroceryList.objects.get(id=list_id)
         if request.user != grocery_list.owner and request.user not in grocery_list.members.all():
             return Response(status=status.HTTP_403_FORBIDDEN)
@@ -33,6 +45,9 @@ class GroceryItemAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, list_id, pk):
+        """
+        Oppdaterer en eksisterende vare i en handleliste basert på vare-ID (pk).
+        """
         try:
             item = GroceryItem.objects.get(pk=pk, list_id=list_id)
         except GroceryItem.DoesNotExist:
@@ -47,6 +62,9 @@ class GroceryItemAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, _, list_id, pk):
+        """
+        Sletter en vare fra handlelisten basert på vare-ID (pk).
+        """
         try:
             item = GroceryItem.objects.get(pk=pk, list_id=list_id)
         except GroceryItem.DoesNotExist:
@@ -56,7 +74,16 @@ class GroceryItemAPIView(APIView):
 
 
 class BoughtItemsAPIView(APIView):
+    """
+    Returnerer en oversikt over kjøpte varer basert på valgt tidsintervall.
+    
+    Støttede intervaller: 'today', 'this_week', 'last_month'.
+    Krever at brukeren er autentisert.
+    """
     def get(self, request):
+        """
+        Henter kjøpte varer for brukeren basert på query-parametret 'range'.
+        """
         range_param = request.GET.get('range', 'today')
         now = timezone.now()
 
