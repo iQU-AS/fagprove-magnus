@@ -233,9 +233,9 @@ export const apiService = {
   },
 
   product: {
-    get_products: (): Promise<ProductType[]> =>
+    get_products: (onlyMine: boolean = false): Promise<ProductType[]> =>
       apiClient
-        .get("/products/")
+        .get("/products/" + (onlyMine ? "?only_mine=true" : ""))
         .then((response) => response.data.map(convertProductFromApi))
         .catch((err) => {
           showToast(

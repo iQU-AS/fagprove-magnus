@@ -21,6 +21,9 @@ export function GroceryList() {
   const [inviteLink, setInviteLink] = useState<string>();
   const [items, setItems] = useState<GroceryItemType[]>([]);
   const [availableProducts, setAvailableProducts] = useState<ProductType[]>([]);
+  const [MyAvailableProducts, setMyAvailableProducts] = useState<ProductType[]>(
+    []
+  );
   const [list, setList] = useState<GroceryListType>();
   const [user, setUser] = useState<UserType>();
   const navigate = useNavigate();
@@ -42,6 +45,9 @@ export function GroceryList() {
     apiService.product
       .get_products()
       .then((data) => setAvailableProducts(data));
+    apiService.product
+      .get_products(true)
+      .then((data) => setMyAvailableProducts(data));
   }, []);
 
   const addItem = (product: ProductType) => {
@@ -60,6 +66,7 @@ export function GroceryList() {
       .create_product({ name: newItemName, price: String(newItemPrice) })
       .then((newProduct) => {
         setAvailableProducts((prev) => [...prev, newProduct]);
+        setMyAvailableProducts((prev) => [...prev, newProduct]);
         addItem(newProduct);
       });
 
@@ -177,8 +184,8 @@ export function GroceryList() {
         <GroceryListSelectBox
           setDialogOpen={setIsAddItemDialogOpen}
           addItem={addItem}
-          setAvailableItems={setAvailableProducts}
-          availableItems={availableProducts}
+          setAvailableItems={setMyAvailableProducts}
+          availableItems={MyAvailableProducts}
         />
 
         <VStack

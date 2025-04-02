@@ -4,6 +4,6 @@ import { defineConfig } from 'vite'
 // https://vite.dev/config/
 export default defineConfig({
   // For prod
-  base: '/static/',
+  // base: '/static/',
   plugins: [react()],
 })

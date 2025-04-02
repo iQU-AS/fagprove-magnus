@@ -12,12 +12,18 @@ class ProductAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        only_mine = request.query_params.get('only_mine')
         products = Product.objects.all()
+        if only_mine in ['true', 'True', '1']:
+            products = products.filter(created_by=request.user)
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
 
+
     def post(self, request):
-        serializer = ProductSerializer(data=request.data)
+        data = request.data.copy()
+        data["created_by_id"] = request.user.id
+        serializer = ProductSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
