@@ -29,4 +29,6 @@ class GroceryItem(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f'{self.quantity}x {self.product.name} in {self.list.name}'
+        product_name = self.product.name if self.product else "Unknown product"
+        list_name = self.list.name if self.list else "No list"
+        return f'{self.quantity}x {product_name} in {list_name}'
