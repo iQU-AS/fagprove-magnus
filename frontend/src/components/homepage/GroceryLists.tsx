@@ -1,4 +1,4 @@
-import { Card, HStack, Heading, Text, VStack } from "@chakra-ui/react";
+import { Box, Card, HStack, Heading, Text, VStack } from "@chakra-ui/react";
 import { MdOutlineLocalGroceryStore } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { GroceryListType } from "../../api/Types";
@@ -48,15 +48,30 @@ export function GroceryLists({ lists, handleCreateList }: GroceryListsProps) {
             bg: "neutral.200",
           }}
           shadow={"sm"}
+          position="relative"
         >
-          <HStack>
+          <Box
+            position="absolute"
+            top={2}
+            left={2}
+            display={{ base: "block", md: "none" }}
+          >
             <MdOutlineLocalGroceryStore
-              size={100}
+              size={25}
               aria-hidden="true"
               focusable="false"
             />
+          </Box>
+          <HStack>
+            <Box display={{ base: "none", md: "block" }}>
+              <MdOutlineLocalGroceryStore
+                size={100}
+                aria-hidden="true"
+                focusable="false"
+              />
+            </Box>
             <VStack>
-              <Card.Header>
+              <Card.Header w={"100%"}>
                 <Heading as={"h2"}>{list.name}</Heading>
               </Card.Header>
               <Card.Body>
