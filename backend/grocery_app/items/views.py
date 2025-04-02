@@ -55,6 +55,7 @@ class GroceryItemAPIView(APIView):
 
         data = request.data.copy()
         data['requested_by_id'] = request.user.id
+        data['bought'] = False
         serializer = GroceryItemSerializer(item, data=data)
         if serializer.is_valid():
             serializer.save()

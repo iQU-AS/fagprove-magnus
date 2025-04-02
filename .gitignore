@@ -3,3 +3,4 @@
 /.vscode
 backend/grocery_app/db.sqlite3
 handleliste_app.tar
+backend/grocery_app/db/db.sqlite3
