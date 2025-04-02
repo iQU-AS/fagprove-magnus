@@ -6,9 +6,9 @@ from products.models import Product
 class ProductSerializer(serializers.ModelSerializer):
     # Write-only inputs using IDs
     created_by_id = serializers.PrimaryKeyRelatedField(
-        source="created_by", queryset=User.objects.all(), write_only=True
+        source='created_by', queryset=User.objects.all(), write_only=True
     )
 
     class Meta:
         model = Product
-        fields = "__all__"
+        fields = '__all__'

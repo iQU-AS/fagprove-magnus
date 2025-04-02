@@ -7,19 +7,19 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("items", "0003_groceryitem_bought_by"),
-        ("lists", "0001_initial"),
+        ('items', '0003_groceryitem_bought_by'),
+        ('lists', '0001_initial'),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name="groceryitem",
-            name="list",
+            model_name='groceryitem',
+            name='list',
             field=models.ForeignKey(
                 null=True,
                 on_delete=django.db.models.deletion.SET_NULL,
-                related_name="items",
-                to="lists.grocerylist",
+                related_name='items',
+                to='lists.grocerylist',
             ),
         ),
     ]

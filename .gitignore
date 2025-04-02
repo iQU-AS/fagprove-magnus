@@ -2,3 +2,4 @@
 **/__pycache__/
 /.vscode
 backend/grocery_app/db.sqlite3
+handleliste_app.tar

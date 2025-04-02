@@ -8,12 +8,12 @@ from datetime import timedelta
 class GroceryList(models.Model):
     name = models.CharField(max_length=255)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    members = models.ManyToManyField(User, related_name="grocery_lists", blank=True)
+    members = models.ManyToManyField(User, related_name='grocery_lists', blank=True)
 
 
 class GroceryListInviteToken(models.Model):
     grocery_list = models.ForeignKey(
-        GroceryList, on_delete=models.CASCADE, related_name="invite_tokens"
+        GroceryList, on_delete=models.CASCADE, related_name='invite_tokens'
     )
     token = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -7,7 +7,7 @@ from products.models import Product
 
 class GroceryItem(models.Model):
     list = models.ForeignKey(
-        GroceryList, related_name="items", on_delete=models.SET_NULL, null=True
+        GroceryList, related_name='items', on_delete=models.SET_NULL, null=True
     )
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
@@ -20,7 +20,7 @@ class GroceryItem(models.Model):
         on_delete=models.CASCADE,
         null=True,
         blank=True,
-        related_name="bought_items",
+        related_name='bought_items',
     )
 
     def save(self, *args, **kwargs):
@@ -29,4 +29,4 @@ class GroceryItem(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.quantity}x {self.product.name} in {self.list.name}"
+        return f'{self.quantity}x {self.product.name} in {self.list.name}'

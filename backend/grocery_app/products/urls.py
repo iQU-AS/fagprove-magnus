@@ -4,6 +4,6 @@ from .views import (
 )
 
 products_urls = [
-    path("api/products/", ProductAPIView.as_view(), name="products"),
-    path("api/products/<int:product_id>/", ProductAPIView.as_view(), name="products"),
+    path('api/products/', ProductAPIView.as_view(), name='products'),
+    path('api/products/<int:product_id>/', ProductAPIView.as_view(), name='products'),
 ]

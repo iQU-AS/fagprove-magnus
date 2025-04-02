@@ -10,7 +10,7 @@ from authentication.urls import authentication_urls
 
 urlpatterns = (
     [
-        path("admin/", admin.site.urls),
+        path('admin/', admin.site.urls),
     ]
     + user_urls
     + items_urls

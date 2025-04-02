@@ -16,28 +16,28 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="GroceryList",
+            name='GroceryList',
             fields=[
                 (
-                    "id",
+                    'id',
                     models.BigAutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name="ID",
+                        verbose_name='ID',
                     ),
                 ),
-                ("name", models.CharField(max_length=255)),
+                ('name', models.CharField(max_length=255)),
                 (
-                    "members",
+                    'members',
                     models.ManyToManyField(
                         blank=True,
-                        related_name="grocery_lists",
+                        related_name='grocery_lists',
                         to=settings.AUTH_USER_MODEL,
                     ),
                 ),
                 (
-                    "owner",
+                    'owner',
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         to=settings.AUTH_USER_MODEL,
@@ -46,29 +46,29 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name="GroceryListInviteToken",
+            name='GroceryListInviteToken',
             fields=[
                 (
-                    "id",
+                    'id',
                     models.BigAutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name="ID",
+                        verbose_name='ID',
                     ),
                 ),
                 (
-                    "token",
+                    'token',
                     models.UUIDField(default=uuid.uuid4, editable=False, unique=True),
                 ),
-                ("created_at", models.DateTimeField(auto_now_add=True)),
-                ("expires_at", models.DateTimeField(blank=True, null=True)),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('expires_at', models.DateTimeField(blank=True, null=True)),
                 (
-                    "grocery_list",
+                    'grocery_list',
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        related_name="invite_tokens",
-                        to="lists.grocerylist",
+                        related_name='invite_tokens',
+                        to='lists.grocerylist',
                     ),
                 ),
             ],

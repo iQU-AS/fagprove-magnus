@@ -5,9 +5,9 @@ from rest_framework.views import APIView
 
 
 class FrontendAppView(APIView):
-    def get(self, request):
+    def get(self):
         try:
-            with open(os.path.join(settings.BASE_DIR, "static", "index.html")) as f:
+            with open(os.path.join(settings.BASE_DIR, 'static', 'index.html')) as f:
                 return HttpResponse(f.read())
         except FileNotFoundError:
-            return HttpResponse("index.html not found", status=501)
+            return HttpResponse('index.html not found', status=501)

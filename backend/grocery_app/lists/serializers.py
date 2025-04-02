@@ -11,10 +11,10 @@ class GroceryListSerializer(serializers.ModelSerializer):
 
     # Write-only inputs using IDs
     owner_id = serializers.PrimaryKeyRelatedField(
-        source="owner", queryset=User.objects.all(), write_only=True
+        source='owner', queryset=User.objects.all(), write_only=True
     )
     member_ids = serializers.PrimaryKeyRelatedField(
-        source="members",
+        source='members',
         queryset=User.objects.all(),
         many=True,
         write_only=True,
@@ -23,4 +23,4 @@ class GroceryListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GroceryList
-        fields = "__all__"
+        fields = '__all__'

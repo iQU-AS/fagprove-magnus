@@ -8,19 +8,19 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("items", "0002_groceryitem_bought_at_groceryitem_created_at"),
+        ('items', '0002_groceryitem_bought_at_groceryitem_created_at'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name="groceryitem",
-            name="bought_by",
+            model_name='groceryitem',
+            name='bought_by',
             field=models.ForeignKey(
                 blank=True,
                 null=True,
                 on_delete=django.db.models.deletion.CASCADE,
-                related_name="bought_items",
+                related_name='bought_items',
                 to=settings.AUTH_USER_MODEL,
             ),
         ),

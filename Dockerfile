@@ -1,5 +1,5 @@
 # Step 1: Build React frontend
-FROM node:18 AS frontend-builder
+FROM node:20 AS frontend-builder
 WORKDIR /app/frontend
 
 COPY frontend/package.json frontend/package-lock.json ./
@@ -25,6 +25,7 @@ COPY --from=frontend-builder /app/frontend/dist/assets /app/backend/grocery_app/
 COPY --from=frontend-builder /app/frontend/dist/index.html /app/backend/grocery_app/templates/index.html
 
 WORKDIR /app/backend/grocery_app
+RUN mkdir -p /app/backend/grocery_app/db
 
 CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
 
