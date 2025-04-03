@@ -24,8 +24,8 @@ class CookieLoginView(TokenObtainPairView):
                 httponly=True,
                 secure=False,
                 samesite='Lax',
-                path='/',
-                max_age=60 * 60 * 24 * 7,  # 7 days
+                path='/api/auth/refresh/',
+                max_age=60 * 60 * 24 * 7,  # 7 dager
             )
             del response.data['refresh']
 
@@ -82,7 +82,7 @@ class RegisterView(generics.CreateAPIView):
             httponly=True,
             secure=False,
             samesite='Lax',
-            path='/',
+            path='/api/auth/refresh/',
             max_age=60 * 60 * 24 * 7,  # 7 dager
         )
         return response
@@ -96,5 +96,5 @@ class LogoutView(APIView):
     """
     def post(self, _):
         response = Response({'detail': 'Logged out successfully.'}, status=status.HTTP_200_OK)
-        response.delete_cookie('refresh_token', path='/')
+        response.delete_cookie('refresh_token', path='/api/auth/refresh/')
         return response
